@@ -1,6 +1,6 @@
 # Swift Color Visualizer
 
-A modern web application that helps iOS/macOS developers visualize Swift Color syntax with real-time parsing and visual feedback.
+A simple web application that helps iOS/macOS developers visualize Swift Color syntax with real-time parsing and visual feedback.
 
 ## Features
 
