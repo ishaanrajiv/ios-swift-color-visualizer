@@ -133,7 +133,7 @@ export default function ColorVisualizer() {
                       className="w-full h-32 sm:h-40 px-3 sm:px-4 py-3 sm:py-4 bg-gray-800/50 border border-gray-700/50 rounded-lg sm:rounded-xl text-gray-100 font-mono text-sm placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-transparent resize-none transition-all duration-300 hover:bg-gray-800/70"
                       placeholder="Color(red: 0.1, green: 0.2, blue: 0.3)"
                     />
-                    <div className="absolute top-3 right-3 text-xs text-gray-500 bg-gray-800/80 px-2 py-1 rounded">
+                    <div className="absolute bottom-3 right-3 text-xs text-gray-500 bg-gray-800/80 px-2 py-1 rounded">
                       Swift
                     </div>
                   </div>
