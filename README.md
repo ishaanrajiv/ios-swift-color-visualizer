@@ -1,36 +1,51 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Swift Color Visualizer
+
+A modern web application that helps iOS/macOS developers visualize Swift Color syntax with real-time parsing and visual feedback.
+
+## Features
+
+- **Swift Color Parsing**: Parse `Color(red: X, green: Y, blue: Z)` syntax with real-time validation
+- **Visual Color Preview**: Large color swatch with automatic text contrast for accessibility  
+- **Bidirectional Sync**: Change Swift code to update color picker, or use color picker to generate Swift code
+- **Color Format Conversion**: Get RGB, HEX, and Swift formats with one-click copying
+- **Modern Dark UI**: Glassmorphism design with responsive 2-column layout
+- **Real-time Validation**: Instant error feedback with helpful messages
 
 ## Getting Started
 
-First, run the development server:
-
 ```bash
+# Install dependencies
+npm install
+
+# Start development server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+
+# Build for production
+npm run build
+
+# Start production server
+npm start
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) to view the application.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Usage
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. **Swift Code Input**: Type or paste Swift Color syntax like `Color(red: 0.2, green: 0.6, blue: 1.0)`
+2. **Visual Selection**: Use the color picker to visually select colors
+3. **Copy Values**: Click any color value (RGB, HEX, Swift) to copy to clipboard
+4. **Real-time Preview**: See your color instantly with proper text contrast
 
-## Learn More
+## Tech Stack
 
-To learn more about Next.js, take a look at the following resources:
+- **Next.js 15** with App Router and Turbopack
+- **TypeScript** for type safety
+- **Tailwind CSS v4** for styling
+- **React 19** with modern hooks
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Architecture
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- **ColorVisualizer**: Main component with 2-column responsive layout
+- **Color Utilities**: Centralized conversion and validation logic
+- **State Management**: Sophisticated sync system preventing update loops
+- **Accessibility**: Automatic text contrast based on color luminance
