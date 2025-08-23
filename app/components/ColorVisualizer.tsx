@@ -17,26 +17,50 @@ export default function ColorVisualizer() {
   const [color, setColor] = useState<SwiftColor | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [copied, setCopied] = useState<string | null>(null);
+  const [pickerValue, setPickerValue] = useState('#3366ff');
+  const [isUpdatingFromPicker, setIsUpdatingFromPicker] = useState(false);
 
   const updateColor = (newInput: string) => {
     const result = parseSwiftColor(newInput);
     setColor(result.color);
     setError(result.error);
+    
+    // Only update picker value if not currently updating from picker to prevent loops
+    if (!isUpdatingFromPicker && result.color) {
+      const newHex = swiftToHex(result.color);
+      setPickerValue(newHex);
+    }
   };
 
   useEffect(() => {
     updateColor(input);
-  }, [input]);
+  }, [input, isUpdatingFromPicker]);
+
+  // Initialize picker value on mount
+  useEffect(() => {
+    const result = parseSwiftColor(input);
+    if (result.color) {
+      const initialHex = swiftToHex(result.color);
+      setPickerValue(initialHex);
+    }
+  }, []);
 
   const handleInputChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
+    setIsUpdatingFromPicker(false);
     setInput(e.target.value);
   };
 
   const handleColorPickerChange = (e: ChangeEvent<HTMLInputElement>) => {
     const hex = e.target.value;
+    setPickerValue(hex);
+    setIsUpdatingFromPicker(true);
+    
     const swiftColor = hexToSwift(hex);
     const formattedSwift = formatSwiftColor(swiftColor);
     setInput(formattedSwift);
+    
+    // Reset the flag after a short delay to allow the update to complete
+    setTimeout(() => setIsUpdatingFromPicker(false), 100);
   };
 
   const copyToClipboard = async (text: string, label: string) => {
@@ -90,9 +114,9 @@ export default function ColorVisualizer() {
           </div>
 
           {/* Main Content */}
-          <div className="grid xl:grid-cols-3 gap-8 mb-16">
-            {/* Input Section */}
-            <div className="xl:col-span-1 space-y-8">
+          <div className="grid lg:grid-cols-2 gap-8 mb-16">
+            {/* Swift Code Section */}
+            <div className="space-y-6">
               {/* Swift Input Card */}
               <div className="group relative">
                 <div className="absolute inset-0 bg-gradient-to-r from-indigo-500/10 to-purple-500/10 rounded-2xl blur-xl transition-all duration-500 group-hover:blur-2xl"></div>
@@ -123,116 +147,52 @@ export default function ColorVisualizer() {
                 </div>
               </div>
 
-              {/* Color Picker Card */}
-              <div className="group relative">
-                <div className="absolute inset-0 bg-gradient-to-r from-purple-500/10 to-pink-500/10 rounded-2xl blur-xl transition-all duration-500 group-hover:blur-2xl"></div>
-                <div className="relative bg-gray-950/70 backdrop-blur-xl border border-gray-800/50 rounded-2xl p-6 hover:border-gray-700/50 transition-all duration-300">
-                  <div className="flex items-center mb-4">
-                    <div className="w-3 h-3 bg-gradient-to-r from-purple-400 to-pink-500 rounded-full mr-3"></div>
-                    <h3 className="text-lg font-semibold text-gray-100">Visual Picker</h3>
-                  </div>
-                  
-                  <div className="relative">
-                    <input
-                      type="color"
-                      value={hex || '#000000'}
-                      onChange={handleColorPickerChange}
-                      disabled={!color}
-                      className="w-full h-16 rounded-xl border-2 border-gray-700/50 bg-gray-800/50 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer hover:border-gray-600/50 transition-all duration-300"
-                    />
-                    {!color && (
-                      <div className="absolute inset-0 bg-gray-800/80 rounded-xl flex items-center justify-center">
-                        <span className="text-gray-500 text-sm">Enter valid color first</span>
-                      </div>
-                    )}
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Color Preview */}
-            <div className="xl:col-span-1">
-              <div className="group relative h-full min-h-[500px]">
-                <div className="absolute inset-0 bg-gradient-to-r from-indigo-500/20 to-purple-500/20 rounded-3xl blur-2xl transition-all duration-700 group-hover:blur-3xl"></div>
-                <div className="relative h-full bg-gray-950/50 backdrop-blur-2xl border border-gray-800/40 rounded-3xl overflow-hidden">
-                  <div
-                    className="w-full h-full flex items-center justify-center text-3xl font-bold transition-all duration-700 relative"
-                    style={{
-                      backgroundColor: cssColor || '#1f2937',
-                      color: textColor
-                    }}
-                  >
-                    <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent"></div>
-                    <div className="relative text-center z-10">
-                      {color ? (
-                        <div className="space-y-3">
-                          <div className="text-4xl font-extrabold">Swift</div>
-                          <div className="text-xl font-normal opacity-80">Color Preview</div>
-                          <div className="text-sm opacity-60 font-mono">
-                            {hex}
-                          </div>
-                        </div>
-                      ) : (
-                        <div className="space-y-3 text-gray-400">
-                          <div className="text-4xl font-extrabold">Enter</div>
-                          <div className="text-xl font-normal">Valid Color</div>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Color Information */}
-            <div className="xl:col-span-1 space-y-6">
+              {/* Color Information */}
               {color && (
-                <>
-                  <div className="group relative">
-                    <div className="absolute inset-0 bg-gradient-to-r from-emerald-500/10 to-teal-500/10 rounded-2xl blur-xl transition-all duration-500 group-hover:blur-2xl"></div>
-                    <div className="relative bg-gray-950/70 backdrop-blur-xl border border-gray-800/50 rounded-2xl p-6 hover:border-gray-700/50 transition-all duration-300">
-                      <div className="flex items-center mb-6">
-                        <div className="w-3 h-3 bg-gradient-to-r from-emerald-400 to-teal-500 rounded-full mr-3"></div>
-                        <h3 className="text-lg font-semibold text-gray-100">Color Values</h3>
+                <div className="group relative">
+                  <div className="absolute inset-0 bg-gradient-to-r from-emerald-500/10 to-teal-500/10 rounded-2xl blur-xl transition-all duration-500 group-hover:blur-2xl"></div>
+                  <div className="relative bg-gray-950/70 backdrop-blur-xl border border-gray-800/50 rounded-2xl p-6 hover:border-gray-700/50 transition-all duration-300">
+                    <div className="flex items-center mb-6">
+                      <div className="w-3 h-3 bg-gradient-to-r from-emerald-400 to-teal-500 rounded-full mr-3"></div>
+                      <h3 className="text-lg font-semibold text-gray-100">Color Values</h3>
+                    </div>
+                    
+                    <div className="space-y-4">
+                      <div className="group/item flex justify-between items-center p-3 bg-gray-800/30 rounded-lg hover:bg-gray-800/50 transition-all duration-200">
+                        <span className="text-gray-300 font-medium">RGB</span>
+                        <button
+                          onClick={() => copyToClipboard(`rgb(${rgb!.r}, ${rgb!.g}, ${rgb!.b})`, 'RGB')}
+                          className="flex items-center space-x-2 text-emerald-400 hover:text-emerald-300 font-mono transition-all duration-200 hover:scale-105"
+                        >
+                          <span>rgb({rgb!.r}, {rgb!.g}, {rgb!.b})</span>
+                          {copied === 'RGB' && <span className="text-xs bg-emerald-500/20 px-2 py-1 rounded text-emerald-300">Copied!</span>}
+                        </button>
                       </div>
                       
-                      <div className="space-y-4">
-                        <div className="group/item flex justify-between items-center p-3 bg-gray-800/30 rounded-lg hover:bg-gray-800/50 transition-all duration-200">
-                          <span className="text-gray-300 font-medium">RGB</span>
-                          <button
-                            onClick={() => copyToClipboard(`rgb(${rgb!.r}, ${rgb!.g}, ${rgb!.b})`, 'RGB')}
-                            className="flex items-center space-x-2 text-emerald-400 hover:text-emerald-300 font-mono transition-all duration-200 hover:scale-105"
-                          >
-                            <span>rgb({rgb!.r}, {rgb!.g}, {rgb!.b})</span>
-                            {copied === 'RGB' && <span className="text-xs bg-emerald-500/20 px-2 py-1 rounded text-emerald-300">Copied!</span>}
-                          </button>
-                        </div>
-                        
-                        <div className="group/item flex justify-between items-center p-3 bg-gray-800/30 rounded-lg hover:bg-gray-800/50 transition-all duration-200">
-                          <span className="text-gray-300 font-medium">HEX</span>
-                          <button
-                            onClick={() => copyToClipboard(hex!, 'HEX')}
-                            className="flex items-center space-x-2 text-emerald-400 hover:text-emerald-300 font-mono transition-all duration-200 hover:scale-105"
-                          >
-                            <span>{hex}</span>
-                            {copied === 'HEX' && <span className="text-xs bg-emerald-500/20 px-2 py-1 rounded text-emerald-300">Copied!</span>}
-                          </button>
-                        </div>
-                        
-                        <div className="group/item flex justify-between items-center p-3 bg-gray-800/30 rounded-lg hover:bg-gray-800/50 transition-all duration-200">
-                          <span className="text-gray-300 font-medium">Swift</span>
-                          <button
-                            onClick={() => copyToClipboard(formatSwiftColor(color), 'Swift')}
-                            className="flex items-center space-x-2 text-emerald-400 hover:text-emerald-300 font-mono text-right transition-all duration-200 hover:scale-105 max-w-48 text-sm"
-                          >
-                            <span className="truncate">Color(red: {color.red}, green: {color.green}, blue: {color.blue})</span>
-                            {copied === 'Swift' && <span className="text-xs bg-emerald-500/20 px-2 py-1 rounded text-emerald-300">Copied!</span>}
-                          </button>
-                        </div>
+                      <div className="group/item flex justify-between items-center p-3 bg-gray-800/30 rounded-lg hover:bg-gray-800/50 transition-all duration-200">
+                        <span className="text-gray-300 font-medium">HEX</span>
+                        <button
+                          onClick={() => copyToClipboard(hex!, 'HEX')}
+                          className="flex items-center space-x-2 text-emerald-400 hover:text-emerald-300 font-mono transition-all duration-200 hover:scale-105"
+                        >
+                          <span>{hex}</span>
+                          {copied === 'HEX' && <span className="text-xs bg-emerald-500/20 px-2 py-1 rounded text-emerald-300">Copied!</span>}
+                        </button>
+                      </div>
+                      
+                      <div className="group/item flex justify-between items-center p-3 bg-gray-800/30 rounded-lg hover:bg-gray-800/50 transition-all duration-200">
+                        <span className="text-gray-300 font-medium">Swift</span>
+                        <button
+                          onClick={() => copyToClipboard(formatSwiftColor(color), 'Swift')}
+                          className="flex items-center space-x-2 text-emerald-400 hover:text-emerald-300 font-mono text-right transition-all duration-200 hover:scale-105 max-w-48 text-sm"
+                        >
+                          <span className="truncate">Color(red: {color.red}, green: {color.green}, blue: {color.blue})</span>
+                          {copied === 'Swift' && <span className="text-xs bg-emerald-500/20 px-2 py-1 rounded text-emerald-300">Copied!</span>}
+                        </button>
                       </div>
                     </div>
                   </div>
-                </>
+                </div>
               )}
 
               {/* Quick Guide */}
@@ -260,6 +220,72 @@ export default function ColorVisualizer() {
                     <div className="flex items-start space-x-3">
                       <div className="w-1.5 h-1.5 bg-amber-400 rounded-full mt-2"></div>
                       <span>Real-time validation and preview</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Visual Color Section */}
+            <div className="space-y-6">
+              {/* Color Preview with Integrated Picker */}
+              <div className="group relative">
+                <div className="absolute inset-0 bg-gradient-to-r from-purple-500/20 to-pink-500/20 rounded-3xl blur-2xl transition-all duration-700 group-hover:blur-3xl"></div>
+                <div className="relative bg-gray-950/50 backdrop-blur-2xl border border-gray-800/40 rounded-3xl overflow-hidden">
+                  {/* Color Display Area */}
+                  <div
+                    className="w-full h-96 flex items-center justify-center text-3xl font-bold transition-all duration-700 relative"
+                    style={{
+                      backgroundColor: cssColor || '#1f2937',
+                      color: textColor
+                    }}
+                  >
+                    <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent"></div>
+                    <div className="relative text-center z-10">
+                      {color ? (
+                        <div className="space-y-3">
+                          <div className="text-4xl font-extrabold">Swift</div>
+                          <div className="text-xl font-normal opacity-80">Color Preview</div>
+                          <div className="text-sm opacity-60 font-mono">
+                            {hex}
+                          </div>
+                        </div>
+                      ) : (
+                        <div className="space-y-3 text-gray-400">
+                          <div className="text-4xl font-extrabold">Enter</div>
+                          <div className="text-xl font-normal">Valid Color</div>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                  
+                  {/* Color Picker Section */}
+                  <div className="p-6 bg-gray-950/80 backdrop-blur-xl border-t border-gray-800/50">
+                    <div className="flex items-center justify-between mb-4">
+                      <div className="flex items-center">
+                        <div className="w-3 h-3 bg-gradient-to-r from-purple-400 to-pink-500 rounded-full mr-3"></div>
+                        <h3 className="text-lg font-semibold text-gray-100">Visual Color Picker</h3>
+                      </div>
+                      {color && (
+                        <div className="text-sm text-gray-400 font-mono">
+                          {hex}
+                        </div>
+                      )}
+                    </div>
+                    
+                    <div className="relative">
+                      <input
+                        type="color"
+                        value={pickerValue}
+                        onChange={handleColorPickerChange}
+                        className="w-full h-16 rounded-xl border-2 border-gray-700/50 bg-gray-800/50 cursor-pointer hover:border-gray-600/50 transition-all duration-300"
+                        style={{ cursor: 'pointer' }}
+                      />
+                      <div className="mt-3 text-center">
+                        <span className="text-sm text-gray-400">
+                          Click to select a color visually
+                        </span>
+                      </div>
                     </div>
                   </div>
                 </div>
