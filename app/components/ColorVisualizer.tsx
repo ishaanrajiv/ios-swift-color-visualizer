@@ -182,13 +182,16 @@ export default function ColorVisualizer() {
                       
                       <div className="group/item flex justify-between items-center p-3 bg-gray-800/30 rounded-lg hover:bg-gray-800/50 transition-all duration-200">
                         <span className="text-gray-300 font-medium">Swift</span>
-                        <button
-                          onClick={() => copyToClipboard(formatSwiftColor(color), 'Swift')}
-                          className="flex items-center space-x-2 text-emerald-400 hover:text-emerald-300 font-mono text-right transition-all duration-200 hover:scale-105 max-w-48 text-sm"
-                        >
-                          <span className="truncate">Color(red: {color.red}, green: {color.green}, blue: {color.blue})</span>
-                          {copied === 'Swift' && <span className="text-xs bg-emerald-500/20 px-2 py-1 rounded text-emerald-300">Copied!</span>}
-                        </button>
+                        <div className="flex items-center space-x-2 min-w-0 flex-1 ml-4">
+                          <button
+                            onClick={() => copyToClipboard(formatSwiftColor(color), 'Swift')}
+                            className="text-emerald-400 hover:text-emerald-300 font-mono text-sm transition-all duration-200 hover:scale-105 text-right truncate flex-1"
+                            title={`Color(red: ${color.red}, green: ${color.green}, blue: ${color.blue})`}
+                          >
+                            Color(red: {color.red}, green: {color.green}, blue: {color.blue})
+                          </button>
+                          {copied === 'Swift' && <span className="text-xs bg-emerald-500/20 px-2 py-1 rounded text-emerald-300 flex-shrink-0">Copied!</span>}
+                        </div>
                       </div>
                     </div>
                   </div>
