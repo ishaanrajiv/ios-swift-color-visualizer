@@ -21,4 +21,18 @@ body {
 
 * {
   transition: colors 500ms ease-in-out;
+  box-sizing: border-box;
+}
+
+/* Prevent horizontal overflow on mobile */
+html, body {
+  overflow-x: hidden;
+  width: 100%;
+  max-width: 100vw;
+}
+
+/* Ensure all text content respects container boundaries */
+* {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }

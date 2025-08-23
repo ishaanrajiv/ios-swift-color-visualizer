@@ -79,7 +79,7 @@ export default function ColorVisualizer() {
   const textColor = color ? getContrastColor(color) : '#FFFFFF';
 
   return (
-    <div className="min-h-screen bg-black relative overflow-hidden">
+    <div className="min-h-screen bg-black relative overflow-x-hidden">
       {/* Background Gradient Overlay */}
       <div className="absolute inset-0 bg-gradient-to-br from-gray-950/80 via-black to-indigo-950/60"></div>
       
@@ -89,16 +89,16 @@ export default function ColorVisualizer() {
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-indigo-500/3 to-transparent"></div>
       </div>
       
-      <div className="relative z-10 min-h-screen p-4 sm:p-8">
-        <div className="max-w-7xl mx-auto">
+      <div className="relative z-10 min-h-screen w-full px-2 py-4 sm:px-8 sm:py-8">
+        <div className="max-w-7xl mx-auto w-full overflow-hidden">
           {/* Header */}
-          <div className="text-center mb-16">
-            <div className="inline-flex items-center px-4 py-2 rounded-full bg-gradient-to-r from-indigo-500/10 to-purple-500/10 border border-indigo-500/20 mb-8">
-              <div className="w-2 h-2 bg-gradient-to-r from-indigo-400 to-purple-500 rounded-full mr-3 animate-pulse"></div>
-              <span className="text-indigo-300 text-sm font-medium">Developer Tools</span>
+          <div className="text-center mb-8 sm:mb-16">
+            <div className="inline-flex items-center px-3 py-1.5 sm:px-4 sm:py-2 rounded-full bg-gradient-to-r from-indigo-500/10 to-purple-500/10 border border-indigo-500/20 mb-6 sm:mb-8">
+              <div className="w-2 h-2 bg-gradient-to-r from-indigo-400 to-purple-500 rounded-full mr-2 sm:mr-3 animate-pulse"></div>
+              <span className="text-indigo-300 text-xs sm:text-sm font-medium">Developer Tools</span>
             </div>
             
-            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-extrabold mb-6">
+            <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold mb-4 sm:mb-6 px-2">
               <span className="bg-gradient-to-r from-indigo-300 via-purple-400 to-indigo-400 bg-clip-text text-transparent">
                 Swift Color
               </span>
@@ -108,29 +108,29 @@ export default function ColorVisualizer() {
               </span>
             </h1>
             
-            <p className="text-xl text-gray-400 max-w-2xl mx-auto leading-relaxed">
+            <p className="text-base sm:text-xl text-gray-400 max-w-2xl mx-auto leading-relaxed px-4">
               Transform Swift Color syntax into beautiful visual previews with real-time parsing and instant feedback
             </p>
           </div>
 
           {/* Main Content */}
-          <div className="grid lg:grid-cols-2 gap-8 mb-16">
+          <div className="grid lg:grid-cols-2 gap-3 sm:gap-8 mb-6 sm:mb-16 w-full">
             {/* Swift Code Section */}
-            <div className="space-y-6">
+            <div className="space-y-3 sm:space-y-6 min-w-0">
               {/* Swift Input Card */}
               <div className="group relative">
                 <div className="absolute inset-0 bg-gradient-to-r from-indigo-500/10 to-purple-500/10 rounded-2xl blur-xl transition-all duration-500 group-hover:blur-2xl"></div>
-                <div className="relative bg-gray-950/70 backdrop-blur-xl border border-gray-800/50 rounded-2xl p-6 hover:border-gray-700/50 transition-all duration-300">
-                  <div className="flex items-center mb-4">
+                <div className="relative bg-gray-950/70 backdrop-blur-xl border border-gray-800/50 rounded-xl sm:rounded-2xl p-3 sm:p-6 hover:border-gray-700/50 transition-all duration-300 w-full">
+                  <div className="flex items-center mb-3 sm:mb-4">
                     <div className="w-3 h-3 bg-gradient-to-r from-indigo-400 to-purple-500 rounded-full mr-3"></div>
-                    <h3 className="text-lg font-semibold text-gray-100">Swift Code</h3>
+                    <h3 className="text-base sm:text-lg font-semibold text-gray-100">Swift Code</h3>
                   </div>
                   
                   <div className="relative">
                     <textarea
                       value={input}
                       onChange={handleInputChange}
-                      className="w-full h-40 px-4 py-4 bg-gray-800/50 border border-gray-700/50 rounded-xl text-gray-100 font-mono text-sm placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-transparent resize-none transition-all duration-300 hover:bg-gray-800/70"
+                      className="w-full h-32 sm:h-40 px-3 sm:px-4 py-3 sm:py-4 bg-gray-800/50 border border-gray-700/50 rounded-lg sm:rounded-xl text-gray-100 font-mono text-sm placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-transparent resize-none transition-all duration-300 hover:bg-gray-800/70"
                       placeholder="Color(red: 0.1, green: 0.2, blue: 0.3)"
                     />
                     <div className="absolute top-3 right-3 text-xs text-gray-500 bg-gray-800/80 px-2 py-1 rounded">
@@ -151,7 +151,7 @@ export default function ColorVisualizer() {
               {color && (
                 <div className="group relative">
                   <div className="absolute inset-0 bg-gradient-to-r from-emerald-500/10 to-teal-500/10 rounded-2xl blur-xl transition-all duration-500 group-hover:blur-2xl"></div>
-                  <div className="relative bg-gray-950/70 backdrop-blur-xl border border-gray-800/50 rounded-2xl p-6 hover:border-gray-700/50 transition-all duration-300">
+                  <div className="relative bg-gray-950/70 backdrop-blur-xl border border-gray-800/50 rounded-xl sm:rounded-2xl p-4 sm:p-6 hover:border-gray-700/50 transition-all duration-300">
                     <div className="flex items-center mb-6">
                       <div className="w-3 h-3 bg-gradient-to-r from-emerald-400 to-teal-500 rounded-full mr-3"></div>
                       <h3 className="text-lg font-semibold text-gray-100">Color Values</h3>
@@ -201,7 +201,7 @@ export default function ColorVisualizer() {
               {/* Quick Guide */}
               <div className="group relative">
                 <div className="absolute inset-0 bg-gradient-to-r from-amber-500/10 to-orange-500/10 rounded-2xl blur-xl transition-all duration-500 group-hover:blur-2xl"></div>
-                <div className="relative bg-gray-950/70 backdrop-blur-xl border border-gray-800/50 rounded-2xl p-6 hover:border-gray-700/50 transition-all duration-300">
+                <div className="relative bg-gray-950/70 backdrop-blur-xl border border-gray-800/50 rounded-xl sm:rounded-2xl p-4 sm:p-6 hover:border-gray-700/50 transition-all duration-300">
                   <div className="flex items-center mb-4">
                     <div className="w-3 h-3 bg-gradient-to-r from-amber-400 to-orange-500 rounded-full mr-3"></div>
                     <h3 className="text-lg font-semibold text-gray-100">Quick Guide</h3>
@@ -230,14 +230,14 @@ export default function ColorVisualizer() {
             </div>
 
             {/* Visual Color Section */}
-            <div className="space-y-6">
+            <div className="space-y-3 sm:space-y-6 min-w-0">
               {/* Color Preview with Integrated Picker */}
               <div className="group relative">
-                <div className="absolute inset-0 bg-gradient-to-r from-purple-500/20 to-pink-500/20 rounded-3xl blur-2xl transition-all duration-700 group-hover:blur-3xl"></div>
-                <div className="relative bg-gray-950/50 backdrop-blur-2xl border border-gray-800/40 rounded-3xl overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-r from-purple-500/20 to-pink-500/20 rounded-2xl sm:rounded-3xl blur-2xl transition-all duration-700 group-hover:blur-3xl"></div>
+                <div className="relative bg-gray-950/50 backdrop-blur-2xl border border-gray-800/40 rounded-2xl sm:rounded-3xl overflow-hidden w-full">
                   {/* Color Display Area */}
                   <div
-                    className="w-full h-96 flex items-center justify-center text-3xl font-bold transition-all duration-700 relative"
+                    className="w-full h-64 sm:h-96 flex items-center justify-center text-2xl sm:text-3xl font-bold transition-all duration-700 relative"
                     style={{
                       backgroundColor: cssColor || '#1f2937',
                       color: textColor
@@ -246,31 +246,31 @@ export default function ColorVisualizer() {
                     <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent"></div>
                     <div className="relative text-center z-10">
                       {color ? (
-                        <div className="space-y-3">
-                          <div className="text-4xl font-extrabold">Swift</div>
-                          <div className="text-xl font-normal opacity-80">Color Preview</div>
-                          <div className="text-sm opacity-60 font-mono">
+                        <div className="space-y-2 sm:space-y-3 px-4">
+                          <div className="text-2xl sm:text-4xl font-extrabold">Swift</div>
+                          <div className="text-lg sm:text-xl font-normal opacity-80">Color Preview</div>
+                          <div className="text-xs sm:text-sm opacity-60 font-mono break-all">
                             {hex}
                           </div>
                         </div>
                       ) : (
-                        <div className="space-y-3 text-gray-400">
-                          <div className="text-4xl font-extrabold">Enter</div>
-                          <div className="text-xl font-normal">Valid Color</div>
+                        <div className="space-y-2 sm:space-y-3 text-gray-400">
+                          <div className="text-2xl sm:text-4xl font-extrabold">Enter</div>
+                          <div className="text-lg sm:text-xl font-normal">Valid Color</div>
                         </div>
                       )}
                     </div>
                   </div>
                   
                   {/* Color Picker Section */}
-                  <div className="p-6 bg-gray-950/80 backdrop-blur-xl border-t border-gray-800/50">
+                  <div className="p-4 sm:p-6 bg-gray-950/80 backdrop-blur-xl border-t border-gray-800/50">
                     <div className="flex items-center justify-between mb-4">
                       <div className="flex items-center">
                         <div className="w-3 h-3 bg-gradient-to-r from-purple-400 to-pink-500 rounded-full mr-3"></div>
-                        <h3 className="text-lg font-semibold text-gray-100">Visual Color Picker</h3>
+                        <h3 className="text-base sm:text-lg font-semibold text-gray-100">Visual Color Picker</h3>
                       </div>
                       {color && (
-                        <div className="text-sm text-gray-400 font-mono">
+                        <div className="text-xs sm:text-sm text-gray-400 font-mono hidden sm:block">
                           {hex}
                         </div>
                       )}
@@ -281,11 +281,11 @@ export default function ColorVisualizer() {
                         type="color"
                         value={pickerValue}
                         onChange={handleColorPickerChange}
-                        className="w-full h-16 rounded-xl border-2 border-gray-700/50 bg-gray-800/50 cursor-pointer hover:border-gray-600/50 transition-all duration-300"
+                        className="w-full h-12 sm:h-16 rounded-lg sm:rounded-xl border-2 border-gray-700/50 bg-gray-800/50 cursor-pointer hover:border-gray-600/50 transition-all duration-300"
                         style={{ cursor: 'pointer' }}
                       />
-                      <div className="mt-3 text-center">
-                        <span className="text-sm text-gray-400">
+                      <div className="mt-2 sm:mt-3 text-center">
+                        <span className="text-xs sm:text-sm text-gray-400">
                           Click to select a color visually
                         </span>
                       </div>
@@ -297,10 +297,10 @@ export default function ColorVisualizer() {
           </div>
 
           {/* Footer */}
-          <div className="text-center">
-            <div className="inline-flex items-center px-6 py-3 rounded-full bg-gradient-to-r from-gray-800/50 to-gray-700/50 border border-gray-600/30 backdrop-blur-xl">
-              <div className="w-2 h-2 bg-gradient-to-r from-indigo-400 to-purple-500 rounded-full mr-3"></div>
-              <span className="text-gray-400 text-sm">Built for Swift developers with ❤️</span>
+          <div className="text-center px-4">
+            <div className="inline-flex items-center px-4 sm:px-6 py-2 sm:py-3 rounded-full bg-gradient-to-r from-gray-800/50 to-gray-700/50 border border-gray-600/30 backdrop-blur-xl">
+              <div className="w-2 h-2 bg-gradient-to-r from-indigo-400 to-purple-500 rounded-full mr-2 sm:mr-3"></div>
+              <span className="text-gray-400 text-xs sm:text-sm">Built for Swift developers with ❤️</span>
             </div>
           </div>
         </div>
